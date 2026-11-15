@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prediksi Olympus ⚡</title>
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#fff; --line:#dde2ea; --text:#1b2433; --muted:#5d6b82;
+  --brand:#1f4e79; --brand-d:#173b5c; --ok:#1d7a4d; --err:#b3261e; --errbg:#fdecea; --okbg:#e8f5ee;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#12161d; --surface:#1b212b; --line:#2c3441; --text:#e8ecf2; --muted:#9aa7bb;
+  --brand:#5b9bd5; --brand-d:#7db1e0; --errbg:#3a1e1c; --okbg:#173326; --err:#ff8a80; --ok:#6fd3a0;}
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 "Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.hidden{display:none!important}
+
+/* Login */
+#login{min-height:100%;display:grid;place-items:center;padding:24px}
+.login-box{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:32px}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.logo i{width:34px;height:34px;border-radius:6px;background:var(--brand);display:grid;place-items:center;color:#fff;font-style:normal;font-weight:700}
+.logo b{font-size:16px}
+.login-box h1{font-size:22px;margin-bottom:4px}
+.login-box p.sub{margin:0 0 20px;color:var(--muted)}
+label{display:block;font-weight:600;font-size:13px;margin:14px 0 6px}
+input[type=text],input[type=password],select{width:100%;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+input:focus,select:focus{border-color:var(--brand)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border:1px solid var(--brand);background:var(--brand);color:#fff;border-radius:6px;cursor:pointer;font-weight:600}
+.btn:hover{background:var(--brand-d)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--brand)}
+.btn.ghost:hover{background:var(--bg)}
+.btn.danger{background:transparent;border-color:var(--line);color:var(--err);padding:5px 10px;font-size:13px}
+.btn.small{padding:5px 10px;font-size:13px}
+.btn.block{width:100%;margin-top:20px}
+.captcha{display:flex;gap:8px;align-items:stretch}
+.captcha canvas{border:1px solid var(--line);border-radius:6px;background:#eef1f6;flex:none}
+.captcha button{padding:0 12px}
+.msg{margin-top:14px;padding:10px 12px;border-radius:6px;font-size:14px}
+.msg.err{background:var(--errbg);color:var(--err)}
+.msg.ok{background:var(--okbg);color:var(--ok)}
+.foot{margin-top:20px;font-size:12px;color:var(--muted);text-align:center}
+
+/* App */
+header.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top-in{max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.top-in .logo{margin:0;flex:1}
+.who{text-align:right;line-height:1.25}
+.who small{color:var(--muted)}
+main{max-width:1100px;margin:0 auto;padding:24px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 20px}
+.stat span{color:var(--muted);font-size:13px}
+.stat strong{display:block;font-size:26px;font-weight:600}
+.grid{display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.panel>h2{font-size:16px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.panel .body{padding:4px 20px 20px}
+.tools{padding:12px 20px;border-bottom:1px solid var(--line)}
+.tools input{max-width:280px}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px 20px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--line)}
+.tag.admin{color:var(--brand);border-color:var(--brand)}
+.acts{display:flex;gap:6px}
+.empty{padding:32px;text-align:center;color:var(--muted)}
+.profile dl{display:grid;grid-template-columns:140px 1fr;gap:10px 16px;margin:0;padding:16px 20px}
+.profile dt{color:var(--muted)}
+.profile dd{margin:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:6px;font-size:14px;z-index:20}
+@media(max-width:820px){
+  .grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .top-in,main{padding-left:16px;padding-right:16px}
+}
+
+/* Prediksi & wheel */
+input[type=number]{width:90px;padding:8px 10px;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+td input[type=text]{min-width:170px}
+.banner{display:flex;align-items:center;gap:16px;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:8px;padding:16px 20px;margin-bottom:24px}
+.banner h2{font-size:17px}
+.banner p{margin:2px 0 0;color:var(--muted)}
+.grid.two{grid-template-columns:1fr 1fr}
+.result{margin-top:4px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.result small{color:var(--muted)}
+.result strong{display:block;font-size:20px;margin:2px 0 6px}
+.result p{margin:0;font-size:13px;color:var(--muted)}
+.modal{position:fixed;inset:0;background:rgba(10,16,28,.6);display:grid;place-items:center;padding:16px;z-index:30;overflow:auto}
+.modal-box{position:relative;width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;text-align:center}
+.modal-box .sub{margin:4px 0 16px;color:var(--muted);font-size:14px}
+.modal-box .x{position:absolute;right:10px;top:8px;border:0;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted)}
+.wheelwrap{position:relative;width:320px;max-width:100%;margin:0 auto}
+.wheelwrap canvas{width:100%;height:auto;display:block}
+.pointer{position:absolute;left:50%;top:-4px;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:24px solid var(--err);z-index:2}
+details{margin-top:16px;text-align:left;font-size:14px}
+details ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+@media(max-width:820px){.grid.two{grid-template-columns:1fr}.banner{flex-direction:column;align-items:flex-start}}
+/* Notifikasi, VIP, dan kode spin */
+.toast{max-width:min(92vw,430px);width:max-content;border-radius:12px;padding:13px 17px;box-shadow:0 10px 35px rgba(0,0,0,.25);font-weight:600}
+.activity-toast{position:fixed;left:16px;bottom:22px;z-index:80;width:min(360px,calc(100vw - 32px));padding:13px 15px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.24);display:flex;gap:11px;align-items:flex-start;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+.activity-toast.show{opacity:1;transform:translateY(0)}
+.activity-toast .activity-icon{width:36px;height:36px;flex:0 0 36px;border-radius:50%;display:grid;place-items:center;background:var(--soft);font-size:18px}
+.activity-toast .activity-copy{min-width:0;line-height:1.4;font-size:13px}
+.activity-toast .activity-copy strong{display:block;font-size:12px;margin-bottom:3px;color:var(--brand)}
+.activity-toast .activity-copy span{overflow-wrap:anywhere}
+.activity-toast
+@media(max-width:480px){.activity-toast{left:10px;bottom:12px;width:calc(100vw - 20px)}}
+
+.toast::before{content:"🔔 ";}.vip-btn{background:linear-gradient(135deg,#8b5cf6,#5b21b6);border-color:#8b5cf6}
+.notice-panel{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 18px}
+.notice-panel .btn{margin:0}
+.vip-modal{max-width:440px;background:linear-gradient(145deg,#20143b,#302052);color:#fff;border-color:#8060b8}
+.vip-modal .sub{color:#ddd1f4}
+.vip-modal .btn{background:#a879ff;border-color:#a879ff;color:#160d27}
+.codebox{display:flex;gap:8px;align-items:end;flex-wrap:wrap;text-align:left;margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:8px}
+.codebox>div{flex:1;min-width:180px}.codebox label{margin-top:0}
+.codebox input{width:100%}
+.code-status{font-size:13px;margin-top:7px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- Halaman login -->
+<section id="login">
+  <form class="login-box" id="loginForm" autocomplete="off" novalidate>
+    <div class="logo"><i>⚡</i><b>Prediksi Olympus</b></div>
+    <h1>Masuk ke akun Anda</h1>
+    <p class="sub">Gunakan username dan password yang sudah terdaftar.</p>
+
+    <label for="u">Username</label>
+    <input type="text" id="u" autocomplete="username" autofocus>
+
+    <label for="p">Password</label>
+    <input type="password" id="p" autocomplete="current-password">
+
+    <label for="c">Kode verifikasi</label>
+    <div class="captcha">
+      <canvas id="cv" width="150" height="42" aria-label="Kode verifikasi"></canvas>
+      <button type="button" class="btn ghost" id="refresh" title="Ganti kode" aria-label="Ganti kode">&#8635;</button>
+      <input type="text" id="c" maxlength="5" placeholder="Ketik kode" autocomplete="off">
+    </div>
+
+    <div id="loginMsg" class="msg err hidden" role="alert"></div>
+    <button class="btn block" id="loginBtn" type="submit">Masuk</button>
+    <p class="foot">Akun baru hanya dapat dibuat oleh administrator.</p>
+  </form>
+</section>
+
+<!-- Aplikasi -->
+<div id="app" class="hidden">
+  <header class="top">
+    <div class="top-in">
+      <div class="logo"><i>⚡</i><b>Prediksi Olympus</b></div>
+      <div class="who"><div id="whoName"></div><small id="whoRole"></small></div>
+      <button class="btn ghost small" id="logout">Keluar</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stats" id="stats"></div>
+
+    <div class="grid" id="adminView">
+      <div class="panel">
+        <h2>Tambah akun member</h2>
+        <form class="body" id="addForm" autocomplete="off" novalidate>
+          <label for="aName">Nama lengkap</label>
+          <input type="text" id="aName">
+          <label for="aUser">Username</label>
+          <input type="text" id="aUser" autocapitalize="none">
+          <label for="aPass">Password (minimal 6 karakter)</label>
+          <input type="password" id="aPass" autocomplete="new-password">
+          <label for="aRole">Peran</label>
+          <select id="aRole"><option value="member">Member</option><option value="admin">Admin</option></select>
+          <div id="addMsg" class="msg hidden" role="alert"></div>
+          <button class="btn block" type="submit">Simpan akun</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Daftar akun</h2>
+        <div class="tools"><input type="text" id="search" placeholder="Cari nama atau username"></div>
+        <div class="tbl"><table>
+          <thead><tr><th>Nama</th><th>Username</th><th>Peran</th><th>Dibuat</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+        <div class="empty hidden" id="empty">Tidak ada akun yang cocok.</div>
+      </div>
+    </div>
+
+    <div id="adminExtra" class="hidden" style="margin-top:24px">
+      <div class="grid">
+        <div class="panel">
+          <h2>Tambah hadiah wheel</h2>
+          <form class="body" id="prizeForm" autocomplete="off" novalidate>
+            <label for="prLabel">Nama hadiah</label>
+            <input type="text" id="prLabel" placeholder="Contoh: Saldo Rp25.000">
+            <label for="prW">Bobot peluang</label>
+            <input type="number" id="prW" min="0" step="1" value="10">
+            <div id="prMsg" class="msg hidden" role="alert"></div>
+            <button class="btn block" type="submit">Tambah hadiah</button>
+          </form>
+          <div class="body" style="display:grid;gap:8px">
+            <button class="btn ghost" id="testSpin" type="button">Uji putar (tidak dicatat)</button>
+            <button class="btn danger" id="resetSpins" type="button">Reset hasil putar semua member</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Hadiah dan peluang wheel</h2>
+          <div class="tools" style="color:var(--muted);font-size:13px">Peluang dihitung dari bobot dan ditampilkan terbuka kepada member. Perubahan tersimpan otomatis.</div>
+          <div class="tbl"><table>
+            <thead><tr><th>Gambar</th><th>Hadiah</th><th>Bobot</th><th>Peluang</th><th></th></tr></thead>
+            <tbody id="prizeRows"></tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="grid two" style="margin-top:24px">
+        <div class="panel">
+          <h2>Hasil putar member</h2>
+          <div class="tbl"><table><thead><tr><th>Member</th><th>Hadiah</th><th>Waktu</th></tr></thead><tbody id="spinRows"></tbody></table></div>
+        </div>
+        <div class="panel">
+          <h2>Prediksi tersimpan</h2>
+          <div class="tbl"><table><thead><tr><th>Laga</th><th>Pertandingan</th><th>Prediksi</th></tr></thead><tbody id="predAdminRows"></tbody></table></div>
+        </div>
+      </div>
+      <div class="grid two" style="margin-top:24px">
+        <div class="panel">
+          <h2>Generator kode spin khusus admin</h2>
+          <div class="body">
+            <label for="codePrize">Hadiah khusus untuk kode (opsional)</label>
+            <select id="codePrize"><option value="">Acak sesuai bobot hadiah</option></select>
+            <button class="btn block" id="makeCode" type="button">Buat kode acak</button>
+            <div id="newCodeMsg" class="msg hidden" role="status"></div>
+            <p class="foot">Kode dibuat admin, hanya bisa dipakai sekali, dan dapat dikaitkan dengan hadiah tertentu.</p>
+          </div>
+          <div class="tbl"><table><thead><tr><th>Kode</th><th>Hadiah khusus</th><th>Status</th></tr></thead><tbody id="codeRows"></tbody></table></div>
+        </div>
+        <div class="panel">
+          <h2>Pengumuman & pengaturan VIP</h2>
+          <form class="body" id="noticeForm">
+            <label for="noticeText">Kirim notifikasi ke member</label>
+            <input type="text" id="noticeText" maxlength="180" placeholder="Tulis pengumuman admin...">
+            <button class="btn block" type="submit">Kirim notifikasi</button>
+            <label for="vipText">Teks popup VIP</label>
+            <input type="text" id="vipText" maxlength="180" placeholder="Dapatkan akses dan info eksklusif...">
+            <label for="vipLink">Link gabung VIP</label>
+            <input type="text" id="vipLink" placeholder="https://...">
+            <button class="btn block" type="button" id="saveVip">Simpan pengaturan VIP</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="memberView" class="hidden">
+      <div class="notice-panel">
+        <button class="btn ghost" id="noticeBtn" type="button">🔔 Notifikasi</button>
+        <button class="btn vip-btn" id="vipBtn" type="button">👑 Gabung VIP</button>
+      </div>
+      <div class="banner">
+        <div><h2>Giveaway: putar wheel hadiah</h2><p id="spinStatus"></p></div>
+        <button class="btn" id="openWheel" type="button">Buka wheel</button>
+      </div>
+      <div class="grid">
+        <div class="panel">
+          <h2>Prediksi laga</h2>
+          <form class="body" id="predForm" autocomplete="off" novalidate>
+            <label for="pLaga">Nama laga</label>
+            <input type="text" id="pLaga" placeholder="Contoh: Mpikdra">
+            <label for="pA">Player 1</label>
+            <input type="text" id="pA">
+            <label for="pB">Player 2</label>
+            <input type="text" id="pB">
+            <div id="predMsg" class="msg hidden" role="alert"></div>
+            <button class="btn block" type="submit">Lihat prediksi</button>
+          </form>
+          <div class="body" id="predResult"></div>
+        </div>
+        <div class="panel">
+          <h2>Prediksi tersimpan</h2>
+          <div class="tbl"><table><thead><tr><th>Laga</th><th>Pertandingan</th><th>Prediksi menang</th></tr></thead><tbody id="predRows"></tbody></table></div>
+          <div class="empty hidden" id="predEmpty">Belum ada prediksi. Masukkan pertandingan pertama.</div>
+        </div>
+      </div>
+      <p class="foot">pik wajib nik x Olympus⚡</p>
+    </div>
+  </main>
+</div>
+
+<div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-box">
+    <button class="x" id="closeModal" type="button" aria-label="Tutup">&times;</button>
+    <h2 id="mTitle">Putar hadiah</h2>
+    <p class="sub" id="mSub"></p>
+    <div class="codebox" id="spinCodeBox">
+      <div><label for="spinCodeInput">Kode akses spin</label><input type="text" id="spinCodeInput" placeholder="Masukkan kode dari admin" autocomplete="off"></div>
+      <button class="btn" id="checkSpinCode" type="button">Verifikasi kode</button>
+      <div class="code-status" id="spinCodeStatus">Masukkan kode yang diberikan admin sebelum memutar.</div>
+    </div>
+    <div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="320" height="320"></canvas></div>
+    <button class="btn block" id="spinBtn" type="button">Putar sekarang</button>
+    <div class="msg ok hidden" id="spinRes" role="status"></div>
+    <details><summary>Daftar hadiah dan peluang</summary><ul id="oddsList"></ul></details>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast" role="status"></div>
+<div class="activity-toast" id="activityToast" role="status" aria-live="polite">
+  <div class="activity-icon">💬</div>
+  <div class="activity-copy"><strong id="activityName">Aktivitas member</strong><span id="activityMessage"></span></div>
+</div>
+<div class="modal hidden" id="vipModal" role="dialog" aria-modal="true" aria-labelledby="vipTitle">
+  <div class="modal-box vip-modal">
+    <button class="x" id="closeVip" type="button" aria-label="Tutup">&times;</button>
+    <div style="font-size:42px">👑</div><h2 id="vipTitle">Gabung VIP Olympus</h2>
+    <p class="sub" id="vipDescription">Dapatkan informasi dan keuntungan khusus member VIP.</p>
+    <button class="btn block" id="vipJoinLink" type="button">Gabung VIP sekarang</button>
+  </div>
+</div>
+<div class="modal hidden" id="noticeModal" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+  <div class="modal-box">
+    <button class="x" id="closeNotice" type="button" aria-label="Tutup">&times;</button>
+    <h2 id="noticeTitle">🔔 Notifikasi</h2>
+    <div id="noticeList" style="text-align:left;margin-top:14px"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var DB_KEY="portal_kantor_db_v1", SESSION_KEY="portal_kantor_session";
+  var mem={}; // cadangan bila penyimpanan browser diblokir
+
+  /* ---------- Penyimpanan otomatis ---------- */
+  function load(){
+    try{var r=localStorage.getItem(DB_KEY); if(r) return JSON.parse(r);}catch(e){}
+    return mem.db||null;
+  }
+  function save(db){
+    mem.db=db;
+    try{localStorage.setItem(DB_KEY,JSON.stringify(db));}catch(e){}
+  }
+  function getSession(){try{return sessionStorage.getItem(SESSION_KEY);}catch(e){return mem.s||null;}}
+  function setSession(v){
+    mem.s=v;
+    try{ v?sessionStorage.setItem(SESSION_KEY,v):sessionStorage.removeItem(SESSION_KEY);}catch(e){}
+  }
+
+  /* ---------- Hash password ---------- */
+  function fallbackHash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return "f"+(h>>>0).toString(16);}
+  async function hash(pw,salt){
+    var s=salt+":"+pw;
+    try{
+      var buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));
+      return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0");}).join("");
+    }catch(e){return fallbackHash(s);}
+  }
+  function newSalt(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36);}
+
+  var db=load();
+  var ADMIN_USER="olymusadmin",
+      ADMIN_SALT="0dc8cac10a2dfaa3",
+      ADMIN_HASH="3e3896c980232ee8a83594de611320afb04d80d1b1f2d188bca775687f5134b6";
+  async function init(){
+    if(!db||!Array.isArray(db.users)||!db.users.length){
+      db={users:[{id:1,name:"Administrator",username:ADMIN_USER,role:"admin",salt:ADMIN_SALT,hash:ADMIN_HASH,created:Date.now()}],nextId:2};
+      save(db);
+    } else if(!db.users.some(function(x){return x.username.toLowerCase()===ADMIN_USER;})){
+      /* Data lama: ubah akun admin bawaan lama menjadi akun admin yang baru */
+      var legacy=db.users.find(function(x){return x.username.toLowerCase()==="admin"&&x.role==="admin";});
+      if(legacy){legacy.username=ADMIN_USER;legacy.salt=ADMIN_SALT;legacy.hash=ADMIN_HASH;}
+      else{db.users.push({id:db.nextId++,name:"Administrator",username:ADMIN_USER,role:"admin",salt:ADMIN_SALT,hash:ADMIN_HASH,created:Date.now()});}
+      save(db);
+    }
+    ensure();
+    var s=getSession();
+    if(s&&findUser(s)) showApp(); else showLogin();
+  }
+  function findUser(u){return db.users.find(function(x){return x.username.toLowerCase()===String(u).toLowerCase();});}
+
+  /* ---------- Captcha (tampilan saja, bukan captcha asli) ---------- */
+  var code="";
+  function makeCaptcha(){
+    var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    code="";for(var i=0;i<5;i++)code+=chars[Math.floor(Math.random()*chars.length)];
+    var cv=document.getElementById("cv"),g=cv.getContext("2d");
+    g.clearRect(0,0,cv.width,cv.height);
+    g.fillStyle="#eef1f6";g.fillRect(0,0,cv.width,cv.height);
+    for(var n=0;n<6;n++){
+      g.strokeStyle="rgba(31,78,121,"+(0.2+Math.random()*0.3)+")";
+      g.beginPath();g.moveTo(Math.random()*150,Math.random()*42);g.lineTo(Math.random()*150,Math.random()*42);g.stroke();
+    }
+    for(var d=0;d<40;d++){g.fillStyle="rgba(60,70,90,.25)";g.fillRect(Math.random()*150,Math.random()*42,2,2);}
+    g.font="bold 26px Georgia, serif";g.textBaseline="middle";
+    for(var k=0;k<code.length;k++){
+      g.save();g.translate(14+k*26,22+(Math.random()*6-3));g.rotate((Math.random()-.5)*.5);
+      g.fillStyle="#1b2f4a";g.fillText(code[k],0,0);g.restore();
+    }
+  }
+
+  /* ---------- Login ---------- */
+  var fails=0,lockUntil=0;
+  function showMsg(el,text,type){el.textContent=text;el.className="msg "+(type||"err");}
+  function hideMsg(el){el.className="msg hidden";}
+  var loginMsg=document.getElementById("loginMsg");
+
+  document.getElementById("refresh").onclick=function(){makeCaptcha();document.getElementById("c").value="";};
+  document.getElementById("loginForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    var u=document.getElementById("u").value.trim(),p=document.getElementById("p").value,c=document.getElementById("c").value.trim();
+    if(Date.now()<lockUntil){showMsg(loginMsg,"Terlalu banyak percobaan. Coba lagi dalam "+Math.ceil((lockUntil-Date.now())/1000)+" detik.");return;}
+    if(!u||!p){showMsg(loginMsg,"Isi username dan password.");return;}
+    if(c.toUpperCase()!==code){showMsg(loginMsg,"Kode verifikasi salah. Periksa kode lalu coba lagi.");makeCaptcha();document.getElementById("c").value="";return;}
+    var user=findUser(u);
+    var ok=user&&(await hash(p,user.salt))===user.hash;
+    if(!ok){
+      fails++;
+      if(fails>=5){lockUntil=Date.now()+30000;fails=0;showMsg(loginMsg,"Terlalu banyak percobaan. Tunggu 30 detik.");}
+      else showMsg(loginMsg,"Username atau password tidak terdaftar.");
+      makeCaptcha();document.getElementById("c").value="";return;
+    }
+    fails=0;setSession(user.username);showApp(true);
+  });
+
+  function showLogin(){
+    document.getElementById("app").classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
+    document.getElementById("loginForm").reset();hideMsg(loginMsg);makeCaptcha();
+  }
+  document.getElementById("logout").onclick=function(){setSession(null);showLogin();};
+
+  /* ---------- Aplikasi ---------- */
+  var me=null;
+  function fmt(t){return new Date(t).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+  function showApp(fresh){
+    me=findUser(getSession());
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.getElementById("whoName").textContent=me.name;
+    document.getElementById("whoRole").textContent=me.role==="admin"?"Administrator":"Member";
+    var isAdmin=me.role==="admin";
+    document.getElementById("adminView").classList.toggle("hidden",!isAdmin);
+    document.getElementById("adminExtra").classList.toggle("hidden",!isAdmin);
+    document.getElementById("memberView").classList.toggle("hidden",isAdmin);
+    document.getElementById("stats").classList.toggle("hidden",!isAdmin);
+    if(isAdmin){render();renderAdminExtra();}
+    else{
+      renderMember();
+    }
+  }
+
+
+  function render(){
+    var admins=db.users.filter(function(u){return u.role==="admin";}).length;
+    document.getElementById("stats").innerHTML=
+      '<div class="stat"><span>Total akun</span><strong>'+db.users.length+'</strong></div>'+
+      '<div class="stat"><span>Admin</span><strong>'+admins+'</strong></div>'+
+      '<div class="stat"><span>Member</span><strong>'+(db.users.length-admins)+'</strong></div>';
+    var q=document.getElementById("search").value.toLowerCase();
+    var list=db.users.filter(function(u){return (u.name+" "+u.username).toLowerCase().indexOf(q)>-1;});
+    document.getElementById("rows").innerHTML=list.map(function(u){
+      var self=u.id===me.id;
+      return "<tr><td>"+esc(u.name)+(self?" (Anda)":"")+"</td><td>"+esc(u.username)+"</td>"+
+        '<td><span class="tag '+u.role+'">'+(u.role==="admin"?"Admin":"Member")+"</span></td><td>"+fmt(u.created)+"</td>"+
+        '<td><div class="acts"><button class="btn ghost small" data-act="reset" data-id="'+u.id+'">Reset password</button>'+
+        (self?"":'<button class="btn danger" data-act="del" data-id="'+u.id+'">Hapus</button>')+"</div></td></tr>";
+    }).join("");
+    document.getElementById("empty").classList.toggle("hidden",list.length>0);
+  }
+  document.getElementById("search").addEventListener("input",render);
+
+  var toastT;
+  function toast(t){var el=document.getElementById("toast");el.textContent=t;el.classList.remove("hidden");clearTimeout(toastT);toastT=setTimeout(function(){el.classList.add("hidden");},2600);}
+
+  /* Notifikasi aktivitas contoh: 50 nama, tampil setiap 5 detik selama member view aktif. */
+  var activityExamples = [
+    ["Ravino","Gila Predik Olympus emang bagus cok"],
+    ["Zelka","Predik Olympus makin mantap!"],
+    ["Nayora","Tampilannya keren, gampang dipakai."],
+    ["Farel","Wih, Predik Olympus bagus banget."],
+    ["Kavira","Fitur wheel-nya seru!"],
+    ["Deylan","Prediksinya rapi dan jelas."],
+    ["Alvian","Olympus makin keren aja."],
+    ["Mireza","Suka banget sama tampilannya."],
+    ["Tavina","Predik Olympus memang jos!"],
+    ["Rendra","Keren, notifikasinya juga menarik."],
+    ["Veyra","Makin nyaman pakai Olympus."],
+    ["Nadiko","Desainnya simpel tapi keren."],
+    ["Elvano","Predik Olympus the best!"],
+    ["Sakira","Fiturnya lengkap dan menarik."],
+    ["Rafiza","Wah, makin bagus sekarang."],
+    ["Davin","Olympus selalu tampil beda."],
+    ["Keysha","Predik-nya bikin penasaran."],
+    ["Arvian","Keren pol, lanjutkan!"],
+    ["Melora","Sistemnya enak dilihat."],
+    ["Zafran","Predik Olympus keren banget."],
+    ["Kevina","Suka dengan desain barunya."],
+    ["Rayhan","Wheel-nya tampil kece."],
+    ["Lunara","Olympus makin gacor tampilannya."],
+    ["Fadira","Mantap, fiturnya makin lengkap."],
+    ["Nerissa","Predik Olympus emang oke."],
+    ["Averro","Tampilannya bikin betah."],
+    ["Dzakir","Keren banget konsepnya."],
+    ["Velina","Predik Olympus selalu menarik."],
+    ["Rizvan","Notifikasinya berasa aplikasi pro."],
+    ["Aldira","Semuanya terlihat lebih rapi."],
+    ["Yovian","Suka banget sama popup-nya."],
+    ["Selvara","Olympus keren dan modern."],
+    ["Mahesa","Predik Olympus makin solid."],
+    ["Qanita","Wih, fitur barunya mantap."],
+    ["Revano","Desain wheel-nya keren."],
+    ["Talitha","Predik Olympus memang bagus cok."],
+    ["Fikran","Keren, tampilannya makin hidup."],
+    ["Zivana","Sistemnya terlihat profesional."],
+    ["Naufira","Suka warna dan desainnya."],
+    ["Baskara","Olympus makin mantul."],
+    ["Adreva","Predik Olympus top banget."],
+    ["Calista","Popup-nya menarik dan elegan."],
+    ["Daryan","Makin nyaman buat dijelajahi."],
+    ["Evandra","Fitur VIP-nya juga keren."],
+    ["Fazira","Olympus nggak ngebosenin."],
+    ["Gavino","Tampilannya bagus dan simpel."],
+    ["Halimah","Predik Olympus keren parah."],
+    ["Ivanka","Mantap, terus dikembangkan."],
+    ["Jovita","Suka banget sama pengalaman pakainya."],
+    ["Kirana","Predik Olympus emang bagus!"]
+  ];
+  var activityIndex=0,activityTimer=null,activityHideTimer=null;
+  function showActivityExample(){
+    var memberPanel=document.getElementById("memberView");
+    if(!memberPanel||memberPanel.classList.contains("hidden"))return;
+    var item=activityExamples[activityIndex];
+    activityIndex=(activityIndex+1)%activityExamples.length;
+    document.getElementById("activityName").textContent=item[0];
+    document.getElementById("activityMessage").textContent=item[0]+": "+item[1];
+    var popup=document.getElementById("activityToast");
+    popup.classList.add("show");
+    clearTimeout(activityHideTimer);
+    activityHideTimer=setTimeout(function(){popup.classList.remove("show");},4200);
+  }
+  function startActivityExamples(){
+    if(activityTimer)clearInterval(activityTimer);
+    activityTimer=setInterval(showActivityExample,10000);
+    setTimeout(showActivityExample,1200);
+  }
+  startActivityExamples();
+
+  /* Tambah akun */
+  var addMsg=document.getElementById("addMsg");
+  document.getElementById("addForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    var name=document.getElementById("aName").value.trim(),
+        user=document.getElementById("aUser").value.trim(),
+        pass=document.getElementById("aPass").value,
+        role=document.getElementById("aRole").value;
+    if(!name||!user||!pass){showMsg(addMsg,"Lengkapi nama, username, dan password.");return;}
+    if(!/^[A-Za-z0-9._-]{3,20}$/.test(user)){showMsg(addMsg,"Username 3–20 karakter: huruf, angka, titik, garis bawah, atau strip.");return;}
+    if(pass.length<6){showMsg(addMsg,"Password minimal 6 karakter.");return;}
+    if(findUser(user)){showMsg(addMsg,"Username sudah dipakai. Pilih username lain.");return;}
+    var salt=newSalt();
+    db.users.push({id:db.nextId++,name:name,username:user,role:role,salt:salt,hash:await hash(pass,salt),created:Date.now()});
+    save(db);
+    this.reset();hideMsg(addMsg);render();toast("Akun "+user+" disimpan");
+  });
+
+  /* Hapus & reset password */
+  document.getElementById("rows").addEventListener("click",async function(e){
+    var b=e.target.closest("button");if(!b)return;
+    var id=+b.dataset.id,u=db.users.find(function(x){return x.id===id;});if(!u)return;
+    if(b.dataset.act==="del"){
+      if(u.role==="admin"&&db.users.filter(function(x){return x.role==="admin";}).length<2){toast("Minimal harus ada satu admin");return;}
+      if(!confirm("Hapus akun "+u.username+"?"))return;
+      db.users=db.users.filter(function(x){return x.id!==id;});save(db);render();toast("Akun dihapus");
+    }else if(b.dataset.act==="reset"){
+      var np=prompt("Password baru untuk "+u.username+" (minimal 6 karakter):");
+      if(np===null)return;
+      if(np.length<6){toast("Password minimal 6 karakter");return;}
+      u.salt=newSalt();u.hash=await hash(np,u.salt);save(db);toast("Password diperbarui");
+    }
+  });
+
+
+  /* ---------- Data tambahan: wheel, prediksi, hasil putar ---------- */
+  function ensure(){
+    if(!db.wheel||!Array.isArray(db.wheel.prizes)) db.wheel={nid:6,prizes:[
+      {id:1,label:"Saldo Rp10.000",weight:40},{id:2,label:"Saldo Rp50.000",weight:30},
+      {id:3,label:"Saldo Rp100.000",weight:20},{id:4,label:"Zonk, coba lagi",weight:9},
+      {id:5,label:"iPhone 15 Pro Max",weight:1}]};
+    if(!db.predictions) db.predictions={};
+    if(!db.spins) db.spins={};
+    if(!Array.isArray(db.spinCodes)) db.spinCodes=[];
+    if(!Array.isArray(db.notifications)) db.notifications=[];
+    if(!db.vipSettings) db.vipSettings={text:"Gabung VIP untuk mendapatkan informasi dan keuntungan eksklusif.",link:""};
+    save(db);
+  }
+  function totalW(){return db.wheel.prizes.reduce(function(a,p){return a+Math.max(0,+p.weight||0);},0);}
+  function pct(p){
+    var t=totalW(),n=db.wheel.prizes.length;
+    if(!n) return "0%";
+    var v=t>0?(Math.max(0,+p.weight||0)/t*100):(100/n);
+    return (Math.round(v*10)/10).toString().replace(".",",")+"%";
+  }
+
+  /* ---------- Prediksi (hasil dikunci per pasangan player) ---------- */
+  function norm(s){return s.trim().replace(/\s+/g," ");}
+  function predictFor(laga,a,b){
+    a=norm(a);b=norm(b);
+    var pair=[a,b].sort(function(x,y){return x.toLowerCase()<y.toLowerCase()?-1:x.toLowerCase()>y.toLowerCase()?1:0;});
+    var key=pair[0].toLowerCase()+" | "+pair[1].toLowerCase();
+    var ex=db.predictions[key];
+    if(ex) return {rec:ex,isNew:false};
+    var h=parseInt(fallbackHash("olympus:"+key).slice(1),16);
+    var rec={key:key,laga:norm(laga),p1:pair[0],p2:pair[1],winner:pair[h%2],by:me.username,at:Date.now()};
+    db.predictions[key]=rec;save(db);
+    return {rec:rec,isNew:true};
+  }
+  var predMsg=document.getElementById("predMsg");
+  document.getElementById("predForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var laga=document.getElementById("pLaga").value,a=document.getElementById("pA").value,b=document.getElementById("pB").value;
+    if(!norm(laga)||!norm(a)||!norm(b)){showMsg(predMsg,"Isi nama laga, Player 1, dan Player 2.");return;}
+    if(norm(a).toLowerCase()===norm(b).toLowerCase()){showMsg(predMsg,"Nama kedua player tidak boleh sama.");return;}
+    hideMsg(predMsg);
+    var r=predictFor(laga,a,b),rec=r.rec;
+    document.getElementById("predResult").innerHTML='<div class="result"><small>Prediksi pemenang</small><strong>'+esc(rec.winner)+'</strong><p>'+
+      esc(rec.p1)+" vs "+esc(rec.p2)+" ("+esc(rec.laga)+"). "+
+      (r.isNew?"Prediksi Fixwin Wajib nik x Olympus":"NIK WAJIB X OLYMPUS")+"</p></div>";
+    renderMember();
+  });
+  function predList(){return Object.keys(db.predictions).map(function(k){return db.predictions[k];}).sort(function(x,y){return y.at-x.at;});}
+  function predRowsHtml(){
+    return predList().map(function(r){return "<tr><td>"+esc(r.laga)+"</td><td>"+esc(r.p1)+" vs "+esc(r.p2)+"</td><td><b>"+esc(r.winner)+"</b></td></tr>";}).join("");
+  }
+  function renderMember(){
+    var sp=db.spins[me.username],ok=canSpin();
+    document.getElementById("spinStatus").textContent=!sp?"Anda belum memutar wheel. Putaran tersedia sekali setiap 24 jam.":
+      (ok?"Putaran baru sudah tersedia. Hasil terakhir: "+sp.prize:"Hasil terakhir: "+sp.prize+". Putaran berikutnya dalam "+waitText()+".");
+    document.getElementById("openWheel").textContent=ok?"Buka wheel":"Lihat hasil";
+    document.getElementById("predRows").innerHTML=predRowsHtml();
+    document.getElementById("predEmpty").classList.toggle("hidden",predList().length>0);
+  }
+  document.getElementById("openWheel").onclick=function(){openWheel(false);};
+
+
+  function canSpin(){var sp=db.spins[me.username];return !sp||Date.now()-sp.at>=86400000;}
+  function waitText(){
+    var ms=86400000-(Date.now()-db.spins[me.username].at),h=Math.floor(ms/3600000),m=Math.ceil((ms%3600000)/60000);
+    if(m===60){h++;m=0;}
+    return h+" jam "+m+" menit";
+  }
+  function defaultIcon(l){
+    l=String(l).toLowerCase();
+    if(/iphone|phone|hp\b|ponsel/.test(l)) return "\u{1F4F1}";
+    if(/saldo|rp|uang|cash|dana|voucher/.test(l)) return "\u{1F4B0}";
+    if(/zonk|coba/.test(l)) return "\u{1F501}";
+    return "\u{1F381}";
+  }
+  var imgCache={};
+  function prizeImg(p){
+    if(!p.img) return null;
+    var c=imgCache[p.id];
+    if(c&&c.src===p.img) return c.complete&&c.naturalWidth?c:null;
+    var im=new Image();im.onload=function(){drawWheel();};im.src=p.img;imgCache[p.id]=im;return null;
+  }
+  function thumbHtml(p){
+    return p.img?'<img src="'+p.img+'" width="32" height="32" alt="" style="border-radius:6px;object-fit:cover">':'<span style="font-size:24px">'+defaultIcon(p.label)+'</span>';
+  }
+  function handleImg(inp){
+    var f=inp.files&&inp.files[0],id=+inp.dataset.img,p=db.wheel.prizes.find(function(x){return x.id===id;});
+    if(!f||!p) return;
+    if(!/^image\//.test(f.type)){toast("File harus berupa gambar");return;}
+    var fr=new FileReader();
+    fr.onload=function(){
+      var im=new Image();
+      im.onload=function(){
+        var c=document.createElement("canvas");c.width=c.height=96;
+        var g=c.getContext("2d"),sz=Math.min(im.width,im.height);
+        g.drawImage(im,(im.width-sz)/2,(im.height-sz)/2,sz,sz,0,0,96,96);
+        p.img=c.toDataURL("image/png");delete imgCache[p.id];save(db);renderAdminExtra();toast("Gambar hadiah disimpan");
+      };
+      im.onerror=function(){toast("Gambar tidak bisa dibaca");};
+      im.src=fr.result;
+    };
+    fr.readAsDataURL(f);
+  }
+
+  /* ---------- Notifikasi, kode spin, dan VIP ---------- */
+  function addNotice(message,type){
+    db.notifications.unshift({id:Date.now()+Math.random(),message:String(message),type:type||"info",at:Date.now()});
+    db.notifications=db.notifications.slice(0,30);save(db);
+  }
+  function showNoticePopup(message){
+    toast(message);
+  }
+  document.getElementById("makeCode").onclick=function(){
+    var alphabet="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",code="";
+    for(var i=0;i<8;i++)code+=alphabet[Math.floor(Math.random()*alphabet.length)];
+    var prizeId=document.getElementById("codePrize").value;
+    db.spinCodes.push({code:code,prizeId:prizeId?+prizeId:null,used:false,created:Date.now()});
+    save(db);renderAdminExtra();
+    var box=document.getElementById("newCodeMsg");
+    box.textContent="Kode baru: "+code+" — salin dan berikan kepada member.";
+    box.className="msg ok";
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).catch(function(){});}
+  };
+  document.getElementById("noticeForm").addEventListener("submit",function(e){
+    e.preventDefault();var v=document.getElementById("noticeText").value.trim();
+    if(!v){toast("Tulis isi notifikasi terlebih dahulu.");return;}
+    addNotice(v,"admin");this.reset();toast("Notifikasi dikirim ke daftar notifikasi member.");
+  });
+  document.getElementById("saveVip").onclick=function(){
+    var link=document.getElementById("vipLink").value.trim();
+    if(link&&!/^https:\/\//i.test(link)){toast("Link VIP harus diawali https://");return;}
+    db.vipSettings={text:document.getElementById("vipText").value.trim()||"Gabung VIP untuk mendapatkan informasi dan keuntungan eksklusif.",link:link};
+    save(db);toast("Pengaturan VIP disimpan.");
+  };
+  document.getElementById("vipBtn").onclick=openVip;
+  document.getElementById("closeVip").onclick=function(){document.getElementById("vipModal").classList.add("hidden");};
+  function openVip(){
+    document.getElementById("vipDescription").textContent=db.vipSettings.text||"Gabung VIP untuk mendapatkan informasi dan keuntungan eksklusif.";
+    document.getElementById("vipModal").classList.remove("hidden");
+  }
+  document.getElementById("vipJoinLink").onclick=function(){
+    var link=db.vipSettings.link;
+    if(link)window.open(link,"_blank","noopener");
+    else toast("Link VIP belum diatur oleh admin.");
+  };
+  document.getElementById("noticeBtn").onclick=function(){
+    var items=db.notifications||[];
+    document.getElementById("noticeList").innerHTML=items.map(function(n){
+      return '<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>'+(n.type==="win"?"🏆 Hadiah":n.type==="admin"?"📢 Admin":"🔔 Info")+'</b><div>'+esc(n.message)+'</div><small style="color:var(--muted)">'+new Date(n.at).toLocaleString("id-ID")+'</small></div>';
+    }).join("")||'<p class="sub">Belum ada notifikasi.</p>';
+    document.getElementById("noticeModal").classList.remove("hidden");
+  };
+  document.getElementById("closeNotice").onclick=function(){document.getElementById("noticeModal").classList.add("hidden");};
+
+  /* ---------- Wheel ---------- */
+  var rot=0,spinning=false,testMode=false,activeSpinCode=null,activeCodeRecord=null;
+  var COLORS=["#1f4e79","#3b7bb3","#2a6f6b","#5b8c5a","#7a5ea8","#a8692a"];
+  function drawWheel(){
+    var cv=document.getElementById("wheel"),g=cv.getContext("2d"),W=cv.width,R=W/2-6,ps=db.wheel.prizes,n=ps.length;
+    g.clearRect(0,0,W,W);
+    if(!n){g.fillStyle="#8a95a8";g.font="16px sans-serif";g.textAlign="center";g.fillText("Belum ada hadiah",W/2,W/2);return;}
+    var seg=Math.PI*2/n,ix=R-30;
+    for(var i=0;i<n;i++){
+      var a0=rot+i*seg;
+      g.beginPath();g.moveTo(W/2,W/2);g.arc(W/2,W/2,R,a0,a0+seg);g.closePath();
+      g.fillStyle=COLORS[i%COLORS.length];g.fill();g.strokeStyle="#fff";g.lineWidth=2;g.stroke();
+      g.save();g.translate(W/2,W/2);g.rotate(a0+seg/2);
+      var im=prizeImg(ps[i]);
+      if(im){
+        g.save();g.beginPath();g.arc(ix,0,20,0,Math.PI*2);g.closePath();g.fillStyle="#fff";g.fill();g.clip();
+        g.drawImage(im,ix-20,-20,40,40);g.restore();
+      }else{
+        g.font="26px 'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif";g.textAlign="center";g.textBaseline="middle";
+        g.fillStyle="#fff";g.fillText(defaultIcon(ps[i].label),ix,1);g.textBaseline="alphabetic";
+      }
+      g.textAlign="right";g.fillStyle="#fff";g.font="bold 12px 'Segoe UI',sans-serif";
+      var t=ps[i].label;if(t.length>12)t=t.slice(0,11)+"…";
+      g.fillText(t,ix-26,4);g.restore();
+    }
+    g.beginPath();g.arc(W/2,W/2,18,0,Math.PI*2);g.fillStyle="#fff";g.fill();g.strokeStyle="#1f4e79";g.lineWidth=3;g.stroke();
+  }
+  function openWheel(test){
+    testMode=!!test;
+    var done=!testMode&&!canSpin()&&db.spins[me.username],res=document.getElementById("spinRes");
+    document.getElementById("mTitle").textContent=testMode?"Uji putar (tidak dicatat)":"Putar hadiah giveaway";
+    document.getElementById("mSub").textContent=testMode?"Mode uji untuk admin. Hasil tidak disimpan.":"Setiap member mendapat satu putaran setiap 24 jam.";
+    if(done){res.textContent="Hasil terakhir: "+done.prize+". Putaran berikutnya dalam "+waitText()+".";res.className="msg ok";}else res.className="msg ok hidden";
+    activeSpinCode=null;activeCodeRecord=null;
+    document.getElementById("spinCodeBox").classList.toggle("hidden",testMode||!!done);
+    document.getElementById("spinCodeInput").value="";
+    document.getElementById("spinCodeStatus").textContent="Masukkan kode yang diberikan admin sebelum memutar.";
+    document.getElementById("spinBtn").disabled=(!testMode&&!done)||!!done||!db.wheel.prizes.length;
+    document.getElementById("oddsList").innerHTML=db.wheel.prizes.map(function(p){return "<li>"+esc(p.label)+": "+pct(p)+"</li>";}).join("")||"<li>Belum ada hadiah.</li>";
+    document.getElementById("modal").classList.remove("hidden");
+    drawWheel();
+  }
+  function closeWheel(){if(!spinning)document.getElementById("modal").classList.add("hidden");}
+  document.getElementById("closeModal").onclick=closeWheel;
+  document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeWheel();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeWheel();});
+
+  document.getElementById("checkSpinCode").onclick=function(){
+    var entered=document.getElementById("spinCodeInput").value.trim().toUpperCase();
+    var rec=db.spinCodes.find(function(c){return c.code===entered;});
+    var status=document.getElementById("spinCodeStatus");
+    if(!entered||!rec){activeSpinCode=null;activeCodeRecord=null;status.textContent="Kode tidak ditemukan. Minta kode kepada admin.";return;}
+    if(rec.used){activeSpinCode=null;activeCodeRecord=null;status.textContent="Kode ini sudah pernah digunakan.";return;}
+    activeSpinCode=entered;activeCodeRecord=rec;
+    status.textContent="Kode valid. Kamu bisa memutar wheel.";
+    document.getElementById("spinBtn").disabled=false;
+  };
+
+  function pickPrize(forcedPrizeId){
+    if(forcedPrizeId){
+      var forced=db.wheel.prizes.find(function(p){return p.id===forcedPrizeId;});
+      if(forced)return forced;
+    }
+    var ps=db.wheel.prizes,t=totalW();
+    if(t<=0) return ps[Math.floor(Math.random()*ps.length)];
+    var r=Math.random()*t;
+    for(var i=0;i<ps.length;i++){r-=Math.max(0,+ps[i].weight||0);if(r<0)return ps[i];}
+    return ps[ps.length-1];
+  }
+  document.getElementById("spinBtn").onclick=function(){
+    if(spinning||!db.wheel.prizes.length) return;
+    if(!testMode&&!canSpin()) return;
+    if(!testMode&&(!activeSpinCode||!activeCodeRecord||activeCodeRecord.used)){toast("Masukkan dan verifikasi kode spin dari admin terlebih dahulu.");return;}
+    var btn=this,res=document.getElementById("spinRes"),win=pickPrize(!testMode&&activeCodeRecord?activeCodeRecord.prizeId:null),n=db.wheel.prizes.length,seg=Math.PI*2/n,idx=db.wheel.prizes.indexOf(win);
+    var full=Math.PI*2,target=-Math.PI/2-(idx+.5)*seg,cur=((rot%full)+full)%full;
+    var delta=(((target-cur)%full)+full)%full+full*5,start=rot,t0=null,dur=4500;
+    spinning=true;btn.disabled=true;res.className="msg ok hidden";
+    function step(ts){
+      if(!t0)t0=ts;
+      var k=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-k,3);
+      rot=start+delta*e;drawWheel();
+      if(k<1){requestAnimationFrame(step);return;}
+      spinning=false;
+      if(testMode){res.textContent="Hasil uji: "+win.label+" (tidak dicatat)";btn.disabled=false;}
+      else{
+        db.spins[me.username]={prize:win.label,at:Date.now()};activeCodeRecord.used=true;activeCodeRecord.usedBy=me.username;activeCodeRecord.usedAt=Date.now();
+        addNotice(me.name+" mendapatkan hadiah: "+win.label,"win");
+        save(db);
+        res.textContent="Hasil putaran Anda: "+win.label;renderMember();
+        showNoticePopup("🎉 Selamat! Kamu mendapatkan "+win.label);
+      }
+      res.className="msg ok";
+    }
+    requestAnimationFrame(step);
+  };
+
+  /* ---------- Pengaturan admin ---------- */
+  function renderAdminExtra(){
+    document.getElementById("prizeRows").innerHTML=db.wheel.prizes.map(function(p){
+      return '<tr><td><div style="display:flex;align-items:center;gap:6px">'+thumbHtml(p)+'<label class="btn ghost small" style="margin:0;cursor:pointer">Ganti<input type="file" accept="image/*" data-img="'+p.id+'" class="hidden"></label>'+(p.img?'<button class="btn danger" data-rmimg="'+p.id+'" aria-label="Hapus gambar">&times;</button>':'')+'</div></td><td><input type="text" data-f="label" data-id="'+p.id+'" value="'+esc(p.label)+'" aria-label="Nama hadiah"></td>'+
+        '<td><input type="number" min="0" step="1" data-f="weight" data-id="'+p.id+'" value="'+(+p.weight||0)+'" aria-label="Bobot"></td>'+
+        '<td>'+pct(p)+'</td><td><button class="btn danger" data-del="'+p.id+'">Hapus</button></td></tr>';
+    }).join("")||'<tr><td colspan="5" class="empty">Belum ada hadiah. Tambahkan di panel kiri.</td></tr>';
+    var sp=Object.keys(db.spins).map(function(u){return {u:u,r:db.spins[u]};}).sort(function(a,b){return b.r.at-a.r.at;});
+    document.getElementById("spinRows").innerHTML=sp.map(function(x){return "<tr><td>"+esc(x.u)+"</td><td>"+esc(x.r.prize)+"</td><td>"+fmt(x.r.at)+"</td></tr>";}).join("")||'<tr><td colspan="3" class="empty">Belum ada member yang memutar.</td></tr>';
+    document.getElementById("predAdminRows").innerHTML=predRowsHtml()||'<tr><td colspan="3" class="empty">Belum ada prediksi.</td></tr>';
+    var sel=document.getElementById("codePrize");
+    sel.innerHTML='<option value="">Acak sesuai bobot hadiah</option>'+db.wheel.prizes.map(function(p){return '<option value="'+p.id+'">'+esc(p.label)+'</option>';}).join("");
+    document.getElementById("codeRows").innerHTML=db.spinCodes.slice().reverse().map(function(c){
+      var prize=db.wheel.prizes.find(function(p){return p.id===c.prizeId;});
+      return '<tr><td><b>'+esc(c.code)+'</b></td><td>'+esc(prize?prize.label:"Acak")+'</td><td>'+(c.used?"Sudah dipakai":"Belum dipakai")+'</td></tr>';
+    }).join("")||'<tr><td colspan="3" class="empty">Belum ada kode dibuat.</td></tr>';
+    document.getElementById("vipText").value=db.vipSettings.text||"";
+    document.getElementById("vipLink").value=db.vipSettings.link||"";
+  }
+  document.getElementById("prizeRows").addEventListener("change",function(e){
+    if(e.target.dataset.img){handleImg(e.target);return;}
+    var el=e.target,id=+el.dataset.id,p=db.wheel.prizes.find(function(x){return x.id===id;});
+    if(!p) return;
+    if(el.dataset.f==="label"){var v=el.value.trim();if(!v){toast("Nama hadiah tidak boleh kosong");el.value=p.label;return;}p.label=v;}
+    else{var w=parseFloat(el.value);if(isNaN(w)||w<0){toast("Bobot harus 0 atau lebih");el.value=p.weight;return;}p.weight=w;}
+    save(db);renderAdminExtra();toast("Perubahan wheel disimpan");
+  });
+  document.getElementById("prizeRows").addEventListener("click",function(e){
+    var r=e.target.closest("button[data-rmimg]");
+    if(r){var q=db.wheel.prizes.find(function(x){return x.id===+r.dataset.rmimg;});if(q){delete q.img;delete imgCache[q.id];save(db);renderAdminExtra();}return;}
+    var b=e.target.closest("button[data-del]");if(!b)return;
+    var id=+b.dataset.del,p=db.wheel.prizes.find(function(x){return x.id===id;});
+    if(!p||!confirm("Hapus hadiah \""+p.label+"\"?"))return;
+    db.wheel.prizes=db.wheel.prizes.filter(function(x){return x.id!==id;});save(db);renderAdminExtra();toast("Hadiah dihapus");
+  });
+  var prMsg=document.getElementById("prMsg");
+  document.getElementById("prizeForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var l=document.getElementById("prLabel").value.trim(),w=parseFloat(document.getElementById("prW").value);
+    if(!l){showMsg(prMsg,"Isi nama hadiah.");return;}
+    if(isNaN(w)||w<0){showMsg(prMsg,"Bobot harus 0 atau lebih.");return;}
+    if(db.wheel.prizes.length>=12){showMsg(prMsg,"Maksimal 12 hadiah agar wheel tetap terbaca.");return;}
+    db.wheel.prizes.push({id:db.wheel.nid++,label:l,weight:w});save(db);
+    this.reset();document.getElementById("prW").value=10;hideMsg(prMsg);renderAdminExtra();toast("Hadiah ditambahkan");
+  });
+  document.getElementById("testSpin").onclick=function(){openWheel(true);};
+  document.getElementById("resetSpins").onclick=function(){
+    if(!confirm("Reset hasil putar semua member? Semua member bisa memutar lagi."))return;
+    db.spins={};save(db);renderAdminExtra();toast("Hasil putar direset");
+  };
+
+  init();
+})();
+</script>
+</body>
+</html>
